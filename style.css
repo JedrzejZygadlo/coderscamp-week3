@@ -1,0 +1,146 @@
+body{
+    margin: 0;
+    padding: 0;
+    background-color: #216DB3;
+    color: #fff;
+}
+#city-search{
+    margin: 2em auto;
+    text-align: center;
+
+
+}
+input{
+    font-size: 2em;
+    border: none;
+    background-color: #94B4CF;
+    text-align: center;
+    opacity: 1;
+}
+::-webkit-input-placeholder {
+    color:#fff;
+}
+
+::-moz-placeholder {
+    color:#fff;
+}
+button{
+    width: 3em;
+    height: 3em;
+    border: none;
+    background-color: #94B4CF;
+    color: #fff;
+}
+#container{
+    max-width: 1000px;
+    margin: 30px auto;
+    padding: 0 1em;
+    display: grid;
+    grid-template-columns: 1fr 2fr 1fr;
+    grid-gap: 2em;
+    font-weight: 800;
+}
+
+#left-container{
+    grid-column:1/2;
+    background-color: #94B4CF;
+    display: flex;
+    flex-direction: column;
+    text-align: center;
+}
+#center-container{
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    grid-gap: 2em;
+    text-align: center;
+}
+
+#right-container{
+    grid-column:3/4;
+    background-color: #94B4CF;
+    text-align: center;
+    display: flex;
+    flex-direction: column;
+}
+#current-city-name{
+    grid-column: 1/3;
+    font-size: 2em;
+    padding: 1em 0;
+    justify-self: center;
+}
+.next-day {
+    background-color: #94B4CF;
+}
+
+p{
+  font-size: 1.5em;
+}
+.favourite{
+    padding: 0.5em;
+    font-size: 2em;
+
+}
+.search-icon{
+    font-size: 2em;
+}
+.next-day-icon{
+     padding-top: 0.4em;
+     font-size: 5em;
+ }
+.today-icon{
+    font-size: 8em;
+    padding: 0.4em 0;
+}
+#date{
+    font-size: 3em;
+    padding: 0.2em 0;
+}
+#temp{
+    font-size: 4em;
+    padding: 0.2em 0;
+}
+#other-info{
+    padding: 2em 0;
+}
+.other-info-text{
+     font-size: 1.5em;
+ }
+
+@media (max-width: 800px){
+    #container{
+        display: block;
+    }
+    #center-container{
+        display: block;
+    }
+    #left-container{
+        margin-bottom: 2em;
+    }
+    .next-day {
+        margin: 1.5em 0;
+        padding: 0.5em 0;
+    }
+    #other-info{
+        display: flex;
+        flex-direction: column;
+    }
+}
+@media (max-width: 500px){
+    #city-search{
+        display: flex;
+        flex-direction: column;
+    }
+    input {
+        font-size: 1.5em;
+        padding: 0;
+        margin: 0 1em;
+    }
+    button{
+        margin: 1em auto 0 auto;
+        width: 2.5em;
+        height: 2.5em;
+    }
+    .search-icon{
+        font-size: 1.5em
+    }
+}
