@@ -1,14 +1,17 @@
-body{
+body {
     margin: 0;
     padding: 0;
     background-color: #216DB3;
     color: #fff;
 }
+*, ::after, ::before {
+    box-sizing: border-box;
+    position: relative;
+}
+
 #city-search{
     margin: 2em auto;
     text-align: center;
-
-
 }
 input{
     font-size: 2em;
@@ -16,6 +19,7 @@ input{
     background-color: #94B4CF;
     text-align: center;
     opacity: 1;
+    color: #fff;
 }
 ::-webkit-input-placeholder {
     color:#fff;
