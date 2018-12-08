@@ -7,35 +7,46 @@ const getWeather = async (cityName) => {
   })
 
   return await fetch(url)
-    .then(res => res.json())
-    .catch(e => e)
+    .then(res => {
+      if (!res.ok) throw new Error(res.statusText)
+      return res.json()
+    })
+    .catch(rej => {
+      // TODO replace alert with something nicer
+      window.alert(`Unable to find a city with a name "${cityName}"`)
+      return rej
+    })
 }
 
-// get average temperature for 5 days
-const getAverageTemp = (data) => {
-  const returnData = []
+// get average data for 5 days
+const getAverageData = data => {
+  const returnData = new Array(5).fill({})
   for(let d = 0; d < 5; d++) {
-    let avg = 0;
+    let avgTemp = 0;
+    let avgHumidity = 0;
     for(let h = 0; h < 8; h++) {
-      avg += data.list[d * 8 + h].main.temp
+      avgTemp += data.list[d * 8 + h].main.temp
+      avgHumidity += data.list[d * 8 + h].main.humidity
     }
-    returnData.push(Math.round(avg / 8))
+    returnData[d] = {
+      temp: Math.round(avgTemp / 8),
+      humidity: Math.round(avgHumidity / 8)
+    }
   }
   return returnData
 }
 
+// get city data on textbox submit
+document.getElementById('city-search').addEventListener('submit', function(e){
+  e.preventDefault();
+  if(e.target.query.value.trim().length > 0) {
+    getWeather(e.target.query.value)
+    .then(data => {
+      // TODO getAverageTemp(data) - wyrenderowac
+      console.log(getAverageData(data))
 
-document.body.addEventListener('submit', function(e){
-    if(e.target && e.target.matches('#city-search')) {
-      e.preventDefault();
-      getWeather(e.target.query.value)
-      .then(data => {
-        // if no error
-        if(data.cod && data.cod === "200") {
-          e.target.query.value = ""
-          // TODO getAverageTemp(data) - wyrenderowac
-          console.log(getAverageTemp(data))
-        }
-      })
-    }
+      e.target.query.value = ""
+    })
+    .catch(rej => {})
+  }
 })
