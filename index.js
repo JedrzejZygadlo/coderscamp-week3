@@ -39,3 +39,43 @@ document.body.addEventListener('submit', function(e){
       })
     }
 })
+
+
+
+
+if (document.body.addEventListener)
+{
+    document.body.addEventListener('click',yourHandler,false);
+}
+else
+{
+    document.body.attachEvent('onclick',yourHandler);//for IE
+}
+
+function yourHandler(e)
+{
+    e = e || window.event;
+    var target = e.target || e.srcElement;
+    if (target.className.match(/plus/))
+    {
+        console.log("xDDD");
+        var parent = target.parentElement;
+        console.log(parent.innerText);
+    }
+}
+
+ 
+
+const getLocalStorageArray = () => {
+  let favoritesArray = localStorage.getItem('favorites') ? JSON.parse(localStorage.getItem('favorites')) : [];
+  return favoritesArray;
+}
+
+const writeArrayToLocalStorage = (favoritesArray) => {
+  localStorage.setItem('favorites', JSON.stringify(favoritesArray));
+}
+
+
+const renderData = (cityName) => {
+  //Pass
+}

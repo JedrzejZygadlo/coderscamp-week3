@@ -67,11 +67,23 @@ button{
     flex-direction: column;
 }
 #current-city-name{
-    grid-column: 1/3;
+    position: relative;
+    grid-column: 1/ span 2;
     font-size: 2em;
     padding: 1em 0;
-    justify-self: center;
 }
+
+#plus_icon{
+    font-size: 0.75em;
+    display: none;
+    position: absolute;
+    top: 10px;
+    right: 10px;
+}
+#current-city-name:hover  #plus_icon {
+    display: block;
+}
+
 .next-day {
     background-color: #94B4CF;
 }
