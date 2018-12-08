@@ -73,20 +73,33 @@ const getAverageData = data => {
   return returnData
 }
 
+let isQueryRunning = false
+
 // get city data on textbox submit
 document.getElementById('city-search').addEventListener('submit', e => {
   e.preventDefault()
-  if (e.target.query.value.trim().length > 0) {
-    getWeather(e.target.query.value)
-      .then(data => {
-        // if response ok
-        if (data.cod && data.cod === '200') {
-          // TODO getAverageTemp(data) - wyrenderowac
-          console.log(getAverageData(data))
+  if (!isQueryRunning) {
+    isQueryRunning = true
+    e.target.style.pointerEvents = 'none'
+    e.target.query.disabled = ' '
 
-          e.target.query.value = ''
-        }
-      })
-      .catch(rej => console.log(rej))
+    if (e.target.query.value.trim().length > 0) {
+      getWeather(e.target.query.value)
+        .then(data => {
+          // if response ok
+          if (data.cod && data.cod === '200') {
+            // TODO getAverageTemp(data) - wyrenderowac
+            console.log(getAverageData(data))
+
+            e.target.query.value = ''
+          }
+        })
+        .catch(rej => console.log(rej))
+        .finally(() => {
+          isQueryRunning = false
+          e.target.style.pointerEvents = 'auto'
+          e.target.query.disabled = ''
+        })
+    }
   }
 })
