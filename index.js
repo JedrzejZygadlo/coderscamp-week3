@@ -29,12 +29,10 @@ const getAverageData = data => {
       if (!(c.main in count)) {
         count[c.main] = {total: 0, icon: c.icon}
         for (let j = i; j < a.length; j++) {
-          if (c.main === a[j].main) {
-            if (++count[c.main].total > max.total) {
-              max.total = count[c.main].total
-              max.key = c.main
-              max.icon = count[c.main].icon
-            }
+          if (c.main === a[j].main && ++count[c.main].total > max.total) {
+            max.total = count[c.main].total
+            max.key = c.main
+            max.icon = count[c.main].icon
           }
         }
       }
