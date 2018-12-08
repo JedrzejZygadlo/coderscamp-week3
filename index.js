@@ -1,12 +1,12 @@
-const getWeather = async (cityName) => {
-  url = new URL(`https://api.openweathermap.org/data/2.5/forecast`)
+const getWeather = (cityName) => {
+  const url = new URL(`https://api.openweathermap.org/data/2.5/forecast`)
   url.search = new URLSearchParams({
     appid: '463692f6a5af1bbd9009033cd6ccfe95',
     q: cityName,
     units: 'metric'
   })
 
-  return await fetch(url)
+  return window.fetch(url)
     .then(res => {
       if (!res.ok) throw new Error(res.statusText)
       return res.json()
@@ -20,33 +20,73 @@ const getWeather = async (cityName) => {
 
 // get average data for 5 days
 const getAverageData = data => {
-  const returnData = new Array(5)
-  for(let d = 0; d < 5; d++) {
-    let avgTemp = 0;
-    let avgHumidity = 0;
-    for(let h = 0; h < 8; h++) {
-      avgTemp += data.list[d * 8 + h].main.temp
-      avgHumidity += data.list[d * 8 + h].main.humidity
+  // get most frequent weather state out of the ones in the array
+  const getMostFrequent = (array) => {
+    const count = {}
+    const max = {total: 0, key: array[0].main, icon: array[0].icon}
+
+    array.forEach((c, i, a) => {
+      if (!(c.main in count)) {
+        count[c.main] = {total: 0, icon: c.icon}
+        for (let j = i; j < a.length; j++) {
+          if (c.main === a[j].main) {
+            if (++count[c.main].total > max.total) {
+              max.total = count[c.main].total
+              max.key = c.main
+              max.icon = count[c.main].icon
+            }
+          }
+        }
+      }
+    })
+    return { key: max.key, icon: max.icon }
+  }
+
+  const returnData = []
+  for (let d = 0; d < 5; d++) {
+    const c = returnData[d] = {
+      temp: 0,
+      temp_max: data.list[d * 8].main.temp_max,
+      temp_min: data.list[d * 8].main.temp_min,
+      humidity: 0,
+      weather: []
     }
-    returnData[d] = {
-      temp: Math.round(avgTemp / 8),
-      humidity: Math.round(avgHumidity / 8)
+    for (let h = 0; h < 8; h++) {
+      // ch - current hour
+      const ch = data.list[d * 8 + h]
+
+      c.temp += ch.main.temp
+      c.temp_max = ch.main.temp_max > c.temp_max ? ch.main.temp_max : c.temp_max
+      c.temp_min = ch.main.temp_min < c.temp_min ? ch.main.temp_min : c.temp_min
+      c.humidity += ch.main.humidity
+      c.weather[h] = {
+        main: ch.weather[0].main,
+        icon: ch.weather[0].icon.slice(0, -1)
+      }
     }
+    c.temp = Math.round(c.temp / 8)
+    c.humidity = Math.round(c.humidity / 8)
+    c.temp_max = Math.round(c.temp_max)
+    c.temp_min = Math.round(c.temp_min)
+    c.weather = getMostFrequent(c.weather)
   }
   return returnData
 }
 
 // get city data on textbox submit
-document.getElementById('city-search').addEventListener('submit', function(e){
-  e.preventDefault();
-  if(e.target.query.value.trim().length > 0) {
+document.getElementById('city-search').addEventListener('submit', e => {
+  e.preventDefault()
+  if (e.target.query.value.trim().length > 0) {
     getWeather(e.target.query.value)
-    .then(data => {
-      // TODO getAverageTemp(data) - wyrenderowac
-      console.log(getAverageData(data))
+      .then(data => {
+        // if response ok
+        if (data.cod && data.cod === '200') {
+          // TODO getAverageTemp(data) - wyrenderowac
+          console.log(getAverageData(data))
 
-      e.target.query.value = ""
-    })
-    .catch(rej => {})
+          e.target.query.value = ''
+        }
+      })
+      .catch(rej => console.log(rej))
   }
 })
