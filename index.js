@@ -19,7 +19,7 @@ const getWeather = (cityName) => {
 }
 
 // get average data for 5 days
-const getAverageData = data => {
+const getForecast = data => {
   // get most frequent weather state out of the ones in the array
   const getMostFrequent = (array) => {
     const count = {}
@@ -87,7 +87,7 @@ document.getElementById('city-search').addEventListener('submit', e => {
           // if response ok
           if (data.cod && data.cod === '200') {
             // TODO getAverageTemp(data) - wyrenderowac
-            console.log(getAverageData(data))
+            console.log(getForecast(data))
 
             e.target.query.value = ''
           }
