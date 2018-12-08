@@ -20,7 +20,7 @@ const getWeather = async (cityName) => {
 
 // get average data for 5 days
 const getAverageData = data => {
-  const returnData = new Array(5).fill({})
+  const returnData = new Array(5)
   for(let d = 0; d < 5; d++) {
     let avgTemp = 0;
     let avgHumidity = 0;
