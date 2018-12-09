@@ -149,31 +149,40 @@ function renderData(avr,allData){
 }
 
 let isQueryRunning = false
-// get city data on textbox submit
-document.getElementById('city-search').addEventListener('submit', e => {
-  e.preventDefault()
-  if (!isQueryRunning && e.target.query.value.trim().length > 0) {
+const sendQuery = cityName => {
+  if (!isQueryRunning && cityName.trim().length > 0) {
     isQueryRunning = true
-    e.target.style.pointerEvents = 'none'
-    e.target.query.disabled = ' '
+    // set the form pointerEvents to none, so it can't be accessed by pointing device
+    document.getElementById('city-search').style.pointerEvents = 'none'
+    // set the query input to disabled, so it can't be manipulated
+    document.getElementById('cityNameInput').disabled = ' '
 
-    getWeather(e.target.query.value)
+    getWeather(cityName)
       .then(data => {
         // if response ok
         if (data.cod && data.cod === '200') {
           let dataAvarage = getForecast(data);
           renderData(dataAvarage,data);
           getDate();
-          e.target.query.value = ''
         }
       })
       .catch(rej => console.log(rej))
       .finally(() => {
         isQueryRunning = false
-        e.target.style.pointerEvents = 'auto'
-        e.target.query.disabled = ''
+        // clear query input
+        document.getElementById('cityNameInput').value = ''
+        // enable query input
+        document.getElementById('cityNameInput').disabled = ''
+        // make the form accessible again
+        document.getElementById('city-search').style.pointerEvents = 'auto'
       })
   }
+}
+
+// get city data on textbox submit
+document.getElementById('city-search').addEventListener('submit', e => {
+  e.preventDefault()
+  sendQuery(e.target.query.value.trim())
 })
 
 const getLocalStorageArray = () => {
@@ -210,17 +219,7 @@ const loadFavourites = () =>{
         let newFavourite = document.createElement("span");
         newFavourite.classList.add('favourite');
         newFavourite.innerText = localStorageArray[index];
-        newFavourite.addEventListener('click',(e)=>{
-          input = document.getElementById("cityNameInput");
-          form = document.getElementById("city-search");
-          input.value = e.target.innerText;
-          let event = new Event('submit',{
-            'view' : window,
-            'bubbles' : true,
-            'cancelable' : true
-          });
-          form.dispatchEvent(event);
-          },false);
+        newFavourite.addEventListener('click', e => sendQuery(e.target.innerText), false);
 
         let iconElement = document.createElement("i");
         iconElement.setAttribute("class","far fa-minus-square minus addremove");
