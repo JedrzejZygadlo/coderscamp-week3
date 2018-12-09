@@ -18,28 +18,28 @@ const getWeather = (cityName) => {
     })
 }
 
-// get average data for 5 days
-const getForecast = data => {
-  // get most frequent weather state out of the ones in the array
-  const getMostFrequent = (array) => {
-    const count = {}
-    const max = {total: 0, key: array[0].main, icon: array[0].icon}
+// get most frequent weather state out of the ones in the array
+const getMostFrequent = (array) => {
+  const count = {}
+  const max = {total: 0, key: array[0].main, icon: array[0].icon}
 
-    array.forEach((c, i, a) => {
-      if (!(c.main in count)) {
-        count[c.main] = {total: 0, icon: c.icon}
-        for (let j = i; j < a.length; j++) {
-          if (c.main === a[j].main && ++count[c.main].total > max.total) {
-            max.total = count[c.main].total
-            max.key = c.main
-            max.icon = count[c.main].icon
-          }
+  array.forEach((c, i, a) => {
+    if (!(c.main in count)) {
+      count[c.main] = {total: 0, icon: c.icon}
+      for (let j = i; j < a.length; j++) {
+        if (c.main === a[j].main && ++count[c.main].total > max.total) {
+          max.total = count[c.main].total
+          max.key = c.main
+          max.icon = count[c.main].icon
         }
       }
-    })
-    return { key: max.key, icon: max.icon }
-  }
+    }
+  })
+  return { key: max.key, icon: max.icon }
+}
 
+// get average data for 5 days
+const getForecast = data => {
   const returnData = []
   for (let d = 0; d < 5; d++) {
     const c = returnData[d] = {
