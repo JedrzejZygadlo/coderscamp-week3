@@ -73,6 +73,78 @@ const getForecast = data => {
 
 let isQueryRunning = false
 
+
+// The function responsible for displaying today's date and days of the week in the right places on the page.
+const getDate = () =>{
+    //Display today's date (Format DD.MM.YYYY)
+    let time = Date.now()
+    let date = new Date(time);
+    let today = date.getDate() + '.' + (date.getMonth()+1)+'.'+date.getFullYear();
+    document.getElementById('date').innerText = today;
+
+    //Display days of the week
+    let week= ['Niedziela','Poniedziałek','Wtorek','Środa','Czwartek','Piątek','Sobota'];
+    let weekShort = ['Ndz','Pon','Wt','Śr','Czw','Pt','Sob'];
+
+    let fiveWeekdaysNames = document.getElementsByClassName('day-of-the-week');
+        fiveWeekdaysNames[0].innerText = week[date.getDay()].toUpperCase();
+    for(let i = 1 ; i< fiveWeekdaysNames.length ; i++){
+        fiveWeekdaysNames[i].innerText =  weekShort[date.getDay()+i].toUpperCase();
+    }
+}
+
+// The function responsible for displaying temperatures,icons and humidity in the right places on the page.
+function renderData(avr,allData){
+
+    // Display the city name and temperatures for all days
+    document.getElementById('current-city-name').innerText = allData.city.name.toUpperCase() + ',   '+ allData.city.country;
+    document.getElementById('temp').innerHTML = avr[0].temp.toString()+'<span>&deg;C</span>';
+    document.getElementById('day2').innerHTML = avr[1].temp.toString()+'<span>&deg;C</span>';
+    document.getElementById('day3').innerHTML = avr[2].temp.toString()+'<span>&deg;C</span>';
+    document.getElementById('day4').innerHTML = avr[3].temp.toString()+'<span>&deg;C</span>';
+    document.getElementById('day5').innerHTML = avr[4].temp.toString()+'<span>&deg;C</span>';
+
+    // Loop the loop through which we will display appropriate icons. Icons depend on the weather. Icons come from FontAwesome
+    for (let i = 0 ; i < avr.length ; i++){
+        let x = document.getElementsByClassName('icon')[i];
+        x.className = "";
+        switch(avr[i].weather.icon.toString()) {
+            case '01':
+                x.classList.add("icon","fa-sun","fas");               //sun
+                break;
+            case '02':
+                x.classList.add("icon","fa-cloud-sun","fas");         //few clouds
+                break;
+            case '03':
+                x.classList.add("icon","fa-cloud","fas");             //scattered clouds
+                break;
+            case '04':
+                x.classList.add("icon","fa-cloud","fas");             //broken clouds
+                break;
+            case '09':
+                x.classList.add("icon","fa-cloud-rain","fas");        //shower rain
+                break;
+            case '10':
+                x.classList.add("icon","fa-cloud-sun-rain","fas");    //rain
+                break;
+            case '11':
+                x.classList.add("icon","fa-bolt","fas");              //thunderstorm
+                break;
+            case '13':
+                x.classList.add("icon","fa-snowflake","fas");         //snow
+                break;
+            case '50':
+                x.classList.add("icon","fa-smog","fas");              //mist
+                break;
+            }
+    }
+
+    //Display maximum and minimum temperature in first day and the humidity.
+    document.getElementById('max').innerHTML = 'Max:<br>' + avr[0].temp_max +'<span>&deg;C</span>';
+    document.getElementById('min').innerHTML = 'Min:<br> ' + avr[0].temp_min +'<span>&deg;C</span>';
+    document.getElementById('humidity').innerText = 'Wilgotność:' + "\r\n" + avr[0].humidity + '%';
+}
+
 // get city data on textbox submit
 document.getElementById('city-search').addEventListener('submit', e => {
   e.preventDefault()
@@ -86,9 +158,9 @@ document.getElementById('city-search').addEventListener('submit', e => {
         .then(data => {
           // if response ok
           if (data.cod && data.cod === '200') {
-            // TODO getAverageTemp(data) - wyrenderowac
-            console.log(getForecast(data))
-
+            let dataAvarage = getForecast(data);
+            renderData(dataAvarage,data);
+            getDate();
             e.target.query.value = ''
           }
         })
