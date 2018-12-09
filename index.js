@@ -167,7 +167,7 @@ const sendQuery = cityName => {
           window.localStorage.currentCity = cityName
         }
       })
-      .catch(rej => console.log(rej))
+      .catch(rej => console.error(rej))
       .finally(() => {
         isQueryRunning = false
         // clear query input
@@ -210,7 +210,7 @@ const minusOnClick = (e) => {
 const loadFavourites = () =>{
     localStorageArray = getLocalStorageArray();
     let rightContainer = document.getElementById("right-container")
-    console.log(rightContainer.innerText);
+    // console.log(rightContainer.innerText);
     while(rightContainer.firstChild){
       rightContainer.removeChild(rightContainer.firstChild);
     }
@@ -229,7 +229,7 @@ const loadFavourites = () =>{
         newFavourite.appendChild(iconElement);
         rightContainer.appendChild(newFavourite);
     }
-    console.log(localStorageArray);
+    // console.log(localStorageArray);
   }
 
 loadFavourites();
