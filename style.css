@@ -1,7 +1,10 @@
+html{
+    background: linear-gradient(#206CB2, #759FD1) no-repeat center center fixed;
+}
 body {
     margin: 0;
     padding: 0;
-    background-color: #216DB3;
+   // background-color: #216DB3;
     color: #fff;
 }
 *, ::after, ::before {
@@ -16,7 +19,7 @@ body {
 input{
     font-size: 2em;
     border: none;
-    background-color: #94B4CF;
+    background: linear-gradient(#93B3CF, #ABC0D6);
     text-align: center;
     opacity: 1;
     color: #fff;
@@ -32,7 +35,7 @@ button{
     width: 3em;
     height: 3em;
     border: none;
-    background-color: #94B4CF;
+    background: linear-gradient(#93B3CF, #ABC0D6);
     color: #fff;
 }
 #container{
@@ -47,7 +50,7 @@ button{
 
 #left-container{
     grid-column:1/2;
-    background-color: #94B4CF;
+    background: linear-gradient(#93B3CF, #ABC0D6);
     display: flex;
     flex-direction: column;
     text-align: center;
@@ -61,7 +64,7 @@ button{
 
 #right-container{
     grid-column:3/4;
-    background-color: #94B4CF;
+    background: linear-gradient(#93B3CF, #ABC0D6);
     text-align: center;
     display: flex;
     flex-direction: column;
@@ -73,11 +76,20 @@ button{
     justify-self: center;
 }
 .next-day {
-    background-color: #94B4CF;
+    background: linear-gradient(#93B3CF, #ABC0D6);
 }
 
 p{
-  font-size: 1.5em;
+  font-size: 2em;
+    margin: 0.4em;
+}
+#day2,#day3,#day4,#day5{
+    font-size: 3em;
+    margin: 0.4em;
+}
+#max,#min,#humidity{
+    font-size: 1.8em;
+    margin: 0.2em;
 }
 .favourite{
     padding: 0.5em;
@@ -104,12 +116,23 @@ p{
     padding: 0.2em 0;
 }
 #other-info{
-    padding: 2em 0;
+    display: flex;
+    flex-direction: column;
 }
 .other-info-text{
      font-size: 1.5em;
  }
-
+.icon{
+    font-size: 6em;
+}
+#main-icon{
+    padding: 0.2em 0;
+    font-size: 8em;
+}
+#today-day-name{
+    font-size: 2em;
+    padding: 0.4em 0;
+}
 @media (max-width: 800px){
     #container{
         display: block;
@@ -123,10 +146,6 @@ p{
     .next-day {
         margin: 1.5em 0;
         padding: 0.5em 0;
-    }
-    #other-info{
-        display: flex;
-        flex-direction: column;
     }
 }
 @media (max-width: 500px){
