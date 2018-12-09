@@ -71,8 +71,6 @@ const getForecast = data => {
   return returnData
 }
 
-let isQueryRunning = false
-
 
 // The function responsible for displaying today's date and days of the week in the right places on the page.
 const getDate = () =>{
@@ -145,31 +143,31 @@ function renderData(avr,allData){
     document.getElementById('humidity').innerText = 'Wilgotność:' + "\r\n" + avr[0].humidity + '%';
 }
 
+let isQueryRunning = false
 // get city data on textbox submit
 document.getElementById('city-search').addEventListener('submit', e => {
   e.preventDefault()
-  if (!isQueryRunning) {
+  if (!isQueryRunning && e.target.query.value.trim().length > 0) {
     isQueryRunning = true
     e.target.style.pointerEvents = 'none'
     e.target.query.disabled = ' '
 
-    if (e.target.query.value.trim().length > 0) {
-      getWeather(e.target.query.value)
-        .then(data => {
-          // if response ok
-          if (data.cod && data.cod === '200') {
-            let dataAvarage = getForecast(data);
-            renderData(dataAvarage,data);
-            getDate();
-            e.target.query.value = ''
-          }
-        })
-        .catch(rej => console.log(rej))
-        .finally(() => {
-          isQueryRunning = false
-          e.target.style.pointerEvents = 'auto'
-          e.target.query.disabled = ''
-        })
-    }
+    getWeather(e.target.query.value)
+      .then(data => {
+        // if response ok
+        if (data.cod && data.cod === '200') {
+          let dataAvarage = getForecast(data);
+          renderData(dataAvarage,data);
+          getDate();
+          e.target.query.value = ''
+        }
+      })
+      .catch(rej => console.log(rej))
+      .finally(() => {
+        isQueryRunning = false
+        e.target.style.pointerEvents = 'auto'
+        e.target.query.disabled = ''
+      })
   }
-})
+}
+)
