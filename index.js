@@ -211,15 +211,20 @@ const loadFavourites = () =>{
         newFavourite.classList.add('favourite');
         newFavourite.innerText = localStorageArray[index];
         newFavourite.addEventListener('click',(e)=>{
-          input = document.getElementById("cityNameInput");
-          form = document.getElementById("city-search");
-          input.value = e.target.innerText;
-          let event = new Event('submit',{
-            'view' : window,
-            'bubbles' : true,
-            'cancelable' : true
-          });
-          form.dispatchEvent(event);
+          isQueryRunning = true
+          getWeather(e.target.innerText)
+          .then(data => {
+            // if response ok
+            if (data.cod && data.cod === '200') {
+              let dataAvarage = getForecast(data);
+              renderData(dataAvarage,data);
+              getDate();
+            }
+          })
+          .catch(rej => console.log(rej))
+          .finally(() => {
+            isQueryRunning = false
+          })
           },false);
 
         let iconElement = document.createElement("i");
