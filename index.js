@@ -164,6 +164,7 @@ const sendQuery = cityName => {
           let dataAvarage = getForecast(data);
           renderData(dataAvarage,data);
           getDate();
+          window.localStorage.currentCity = cityName
         }
       })
       .catch(rej => console.log(rej))
@@ -255,3 +256,9 @@ for(let index = 0;index<plusArray.length;index++){
   plusArray[index].addEventListener('click',plusOnClick,false);
 }
 
+// if there's no "current city", set a default
+if (window.localStorage.currentCity === undefined) {
+  window.localStorage.currentCity = 'Wroclaw, PL'
+}
+// initial view
+sendQuery(window.localStorage.currentCity)
