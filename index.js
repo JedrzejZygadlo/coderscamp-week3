@@ -18,28 +18,28 @@ const getWeather = (cityName) => {
     })
 }
 
-// get average data for 5 days
-const getForecast = data => {
-  // get most frequent weather state out of the ones in the array
-  const getMostFrequent = (array) => {
-    const count = {}
-    const max = {total: 0, key: array[0].main, icon: array[0].icon}
+// get most frequent weather state out of the ones in the array
+const getMostFrequent = (array) => {
+  const count = {}
+  const max = {total: 0, key: array[0].main, icon: array[0].icon}
 
-    array.forEach((c, i, a) => {
-      if (!(c.main in count)) {
-        count[c.main] = {total: 0, icon: c.icon}
-        for (let j = i; j < a.length; j++) {
-          if (c.main === a[j].main && ++count[c.main].total > max.total) {
-            max.total = count[c.main].total
-            max.key = c.main
-            max.icon = count[c.main].icon
-          }
+  array.forEach((c, i, a) => {
+    if (!(c.main in count)) {
+      count[c.main] = {total: 0, icon: c.icon}
+      for (let j = i; j < a.length; j++) {
+        if (c.main === a[j].main && ++count[c.main].total > max.total) {
+          max.total = count[c.main].total
+          max.key = c.main
+          max.icon = count[c.main].icon
         }
       }
-    })
-    return { key: max.key, icon: max.icon }
-  }
+    }
+  })
+  return { key: max.key, icon: max.icon }
+}
 
+// get average data for 5 days
+const getForecast = data => {
   const returnData = []
   for (let d = 0; d < 5; d++) {
     const c = returnData[d] = {
@@ -149,31 +149,41 @@ function renderData(avr,allData){
 }
 
 let isQueryRunning = false
-// get city data on textbox submit
-document.getElementById('city-search').addEventListener('submit', e => {
-  e.preventDefault()
-  if (!isQueryRunning && e.target.query.value.trim().length > 0) {
+const sendQuery = cityName => {
+  if (!isQueryRunning && cityName.trim().length > 0) {
     isQueryRunning = true
-    e.target.style.pointerEvents = 'none'
-    e.target.query.disabled = ' '
+    // set the form pointerEvents to none, so it can't be accessed by pointing device
+    document.getElementById('city-search').style.pointerEvents = 'none'
+    // set the query input to disabled, so it can't be manipulated
+    document.getElementById('cityNameInput').disabled = ' '
 
-    getWeather(e.target.query.value)
+    getWeather(cityName)
       .then(data => {
         // if response ok
         if (data.cod && data.cod === '200') {
           let dataAvarage = getForecast(data);
           renderData(dataAvarage,data);
           getDate();
-          e.target.query.value = ''
+          window.localStorage.currentCity = cityName
         }
       })
-      .catch(rej => console.log(rej))
+      .catch(rej => console.error(rej))
       .finally(() => {
         isQueryRunning = false
-        e.target.style.pointerEvents = 'auto'
-        e.target.query.disabled = ''
+        // clear query input
+        document.getElementById('cityNameInput').value = ''
+        // enable query input
+        document.getElementById('cityNameInput').disabled = ''
+        // make the form accessible again
+        document.getElementById('city-search').style.pointerEvents = 'auto'
       })
   }
+}
+
+// get city data on textbox submit
+document.getElementById('city-search').addEventListener('submit', e => {
+  e.preventDefault()
+  sendQuery(e.target.query.value.trim())
 })
 
 const getLocalStorageArray = () => {
@@ -200,7 +210,7 @@ const minusOnClick = (e) => {
 const loadFavourites = () =>{
     localStorageArray = getLocalStorageArray();
     let rightContainer = document.getElementById("right-container")
-    console.log(rightContainer.innerText);
+    // console.log(rightContainer.innerText);
     while(rightContainer.firstChild){
       rightContainer.removeChild(rightContainer.firstChild);
     }
@@ -210,22 +220,7 @@ const loadFavourites = () =>{
         let newFavourite = document.createElement("span");
         newFavourite.classList.add('favourite');
         newFavourite.innerText = localStorageArray[index];
-        newFavourite.addEventListener('click',(e)=>{
-          isQueryRunning = true
-          getWeather(e.target.innerText)
-          .then(data => {
-            // if response ok
-            if (data.cod && data.cod === '200') {
-              let dataAvarage = getForecast(data);
-              renderData(dataAvarage,data);
-              getDate();
-            }
-          })
-          .catch(rej => console.log(rej))
-          .finally(() => {
-            isQueryRunning = false
-          })
-          },false);
+        newFavourite.addEventListener('click', e => sendQuery(e.target.innerText), false);
 
         let iconElement = document.createElement("i");
         iconElement.setAttribute("class","far fa-minus-square minus addremove");
@@ -234,7 +229,7 @@ const loadFavourites = () =>{
         newFavourite.appendChild(iconElement);
         rightContainer.appendChild(newFavourite);
     }
-    console.log(localStorageArray);
+    // console.log(localStorageArray);
   }
 
 loadFavourites();
@@ -261,3 +256,9 @@ for(let index = 0;index<plusArray.length;index++){
   plusArray[index].addEventListener('click',plusOnClick,false);
 }
 
+// if there's no "current city", set a default
+if (window.localStorage.currentCity === undefined) {
+  window.localStorage.currentCity = 'Wroclaw, PL'
+}
+// initial view
+sendQuery(window.localStorage.currentCity)
