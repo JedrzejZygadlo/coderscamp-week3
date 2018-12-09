@@ -73,17 +73,41 @@ button{
     padding: 1em 0;
 }
 
-#plus_icon{
-    font-size: 0.75em;
-    display: none;
+.addremove{
     position: absolute;
+    color: rgba(255, 255, 255, 0);
+    -webkit-transition: .7s;
+    transition: .7s;
+}
+
+.plus{
+    font-size: 0.75em;
     top: 10px;
     right: 10px;
 }
-#current-city-name:hover  #plus_icon {
-    display: block;
+#current-city-name:hover  .plus {
+    color: rgba(255, 255, 255,255)
 }
 
+
+.favourite{
+    position: relative;
+    padding: 0.5em;
+    font-size: 2em;
+    cursor: pointer;
+
+}
+
+.minus{
+    font-size: 0.7em;
+    right: 5px;
+    top:0px;
+    cursor: default;
+}
+
+.favourite:hover  .minus {
+    color: rgba(255, 255, 255,255)
+}
 .next-day {
     background-color: #94B4CF;
 }
@@ -91,11 +115,7 @@ button{
 p{
   font-size: 1.5em;
 }
-.favourite{
-    padding: 0.5em;
-    font-size: 2em;
 
-}
 .search-icon{
     font-size: 2em;
 }
@@ -139,6 +159,14 @@ p{
     #other-info{
         display: flex;
         flex-direction: column;
+    }
+
+    #plus_icon {
+        color: rgba(255, 255, 255,255)
+    }
+
+    #minus_icon {
+        color: rgba(255, 255, 255,255)
     }
 }
 @media (max-width: 500px){

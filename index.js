@@ -40,42 +40,77 @@ document.body.addEventListener('submit', function(e){
     }
 })
 
-
-
-
-if (document.body.addEventListener)
-{
-    document.body.addEventListener('click',yourHandler,false);
-}
-else
-{
-    document.body.attachEvent('onclick',yourHandler);//for IE
-}
-
-function yourHandler(e)
-{
-    e = e || window.event;
-    var target = e.target || e.srcElement;
-    if (target.className.match(/plus/))
-    {
-        console.log("xDDD");
-        var parent = target.parentElement;
-        console.log(parent.innerText);
-    }
-}
-
- 
-
 const getLocalStorageArray = () => {
-  let favoritesArray = localStorage.getItem('favorites') ? JSON.parse(localStorage.getItem('favorites')) : [];
-  return favoritesArray;
+  return localStorage.getItem('favourites') ? JSON.parse(localStorage.getItem('favourites')) : [];
 }
 
-const writeArrayToLocalStorage = (favoritesArray) => {
-  localStorage.setItem('favorites', JSON.stringify(favoritesArray));
+const writeArrayToLocalStorage = (favouritesArray) => {
+  localStorage.setItem('favourites', JSON.stringify(favouritesArray));
 }
 
 
+const minusOnClick = (e) => {
+  e.stopPropagation();
+  let target = e.target;
+  let parent = target.parentElement;
+  let parentText = parent.innerText;
+  let localStorageArray = getLocalStorageArray();
+  localStorageArray.splice(localStorageArray.indexOf(parentText),1);
+  writeArrayToLocalStorage(localStorageArray);
+  loadFavourites();
+}
+
+writeArrayToLocalStorage(["Częstochowa, PL","Berlin, DE","New York, US"]); // Test Aray to test functionality delete in final version
+
+const loadFavourites = () =>{
+    localStorageArray = getLocalStorageArray();
+    let rightContainer = document.getElementById("right-container")
+    
+    while(rightContainer.firstChild){
+      rightContainer.removeChild(rightContainer.firstChild);
+    }
+
+    for(let index = 0;index<localStorageArray.length;index++){
+        let newFavourite = document.createElement("span");
+        newFavourite.classList.add('favourite');
+        newFavourite.innerText = localStorageArray[index];
+        newFavourite.addEventListener('click',()=>{renderData(newFavourite.innerText)},false);
+
+        let iconElement = document.createElement("i");
+        iconElement.setAttribute("class","far fa-minus-square minus addremove");
+        iconElement.addEventListener('click',minusOnClick,false);
+
+        newFavourite.appendChild(iconElement);
+        rightContainer.appendChild(newFavourite);
+    }
+    console.log(localStorageArray);
+}
+
+loadFavourites();
+
+
+const plusOnClick = (e) =>{
+        let target = e.target;
+        let parent = target.parentElement;
+        let parentText = parent.innerText;
+        let localStorageArray = getLocalStorageArray();
+        if(localStorageArray.indexOf(parentText) == -1){
+          localStorageArray.push(parentText);
+          writeArrayToLocalStorage(localStorageArray);
+        }
+        else{
+          alert("Already saved in favourites list");
+        } 
+        loadFavourites(); 
+}
+
+//Iterates through array in case in future version there will be more plus icons saving to local storage
+let plusArray = document.querySelectorAll(".plus");
+for(let index = 0;index<plusArray.length;index++){
+  plusArray[index].addEventListener('click',plusOnClick,false);
+}
+
+//Will be replaced by real render function that takes cityName as argument
 const renderData = (cityName) => {
-  //Pass
+  console.log("Data rendered for: " + cityName);
 }
