@@ -171,8 +171,9 @@ const setVideoBg = avg => {
       weather = 'snow'
       break
   }
-
-  document.querySelector('#videoBg > video').src = `vid/${weather}.mp4`
+  if (document.querySelector('#videoBg > video').getAttribute('src') !== `vid/${weather}.mp4`) {
+    document.querySelector('#videoBg > video').src = `vid/${weather}.mp4`
+  }
 }
 
 let isQueryRunning = false
