@@ -97,7 +97,12 @@ const getDate = () =>{
 function renderData(avr,allData){
 
     // Display the city name and temperatures for all days
-    document.getElementById('current-city-name').innerText = allData.city.name.toUpperCase() + ',   '+ allData.city.country;
+    let cityName = document.getElementById('current-city-name');
+    cityName.innerText = allData.city.name.toUpperCase() + ',   '+ allData.city.country;
+    let iconElement = document.createElement("i");
+    iconElement.setAttribute("class","far fa-plus-square plus addremove");
+    iconElement.addEventListener('click',plusOnClick,false);
+    cityName.appendChild(iconElement);
     document.getElementById('temp').innerHTML = avr[0].temp.toString()+'<span>&deg;C</span>';
     document.getElementById('day2').innerHTML = avr[1].temp.toString()+'<span>&deg;C</span>';
     document.getElementById('day3').innerHTML = avr[2].temp.toString()+'<span>&deg;C</span>';
@@ -173,3 +178,86 @@ document.getElementById('city-search').addEventListener('submit', e => {
     }
   }
 })
+
+const getLocalStorageArray = () => {
+  return localStorage.getItem('favourites') ? JSON.parse(localStorage.getItem('favourites')) : [];
+}
+
+const writeArrayToLocalStorage = (favouritesArray) => {
+  localStorage.setItem('favourites', JSON.stringify(favouritesArray));
+}
+
+
+const minusOnClick = (e) => {
+  e.stopPropagation();
+  let target = e.target;
+  let parent = target.parentElement;
+  let parentText = parent.innerText;
+  let localStorageArray = getLocalStorageArray();
+  localStorageArray.splice(localStorageArray.indexOf(parentText),1);
+  writeArrayToLocalStorage(localStorageArray);
+  loadFavourites();
+}
+
+
+const loadFavourites = () =>{
+    localStorageArray = getLocalStorageArray();
+    let rightContainer = document.getElementById("right-container")
+    
+    if(localStorageArray.length!=0){
+      while(rightContainer.firstChild){
+        rightContainer.removeChild(rightContainer.firstChild);
+      }
+    }
+
+    for(let index = 0;index<localStorageArray.length;index++){
+        let newFavourite = document.createElement("span");
+        newFavourite.classList.add('favourite');
+        newFavourite.innerText = localStorageArray[index];
+        newFavourite.addEventListener('click',(e)=>{
+          input = document.getElementById("cityNameInput");
+          form = document.getElementById("city-search");
+          input.value = e.target.innerText;
+          let event = new Event('submit',{
+            'view' : window,
+            'bubbles' : true,
+            'cancelable' : true
+          });
+          form.dispatchEvent(event);
+          },false);
+
+        let iconElement = document.createElement("i");
+        iconElement.setAttribute("class","far fa-minus-square minus addremove");
+        iconElement.addEventListener('click',minusOnClick,false);
+
+        newFavourite.appendChild(iconElement);
+        rightContainer.appendChild(newFavourite);
+    }
+    console.log(localStorageArray);
+  }
+
+loadFavourites();
+
+
+const plusOnClick = (e) =>{
+        let target = e.target;
+        let parent = target.parentElement;
+        let parentText = parent.innerText;
+        let localStorageArray = getLocalStorageArray();
+        if(localStorageArray.indexOf(parentText) == -1){
+          localStorageArray.push(parentText);
+          writeArrayToLocalStorage(localStorageArray);
+        }
+        else{
+          alert("Already saved in favourites list");
+        } 
+        loadFavourites(); 
+}
+
+//Iterates through array in case in future version there will be more plus icons saving to local storage
+let plusArray = document.querySelectorAll(".plus");
+for(let index = 0;index<plusArray.length;index++){
+  plusArray[index].addEventListener('click',plusOnClick,false);
+}
+
+

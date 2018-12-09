@@ -12,7 +12,7 @@
 </head>
 <body>
     <form id="city-search" autocomplete="off">
-        <input type="text" placeholder="Wpisz nazwę miasta..." name="query">
+        <input id = "cityNameInput" type="text" placeholder="Wpisz nazwę miasta..." name="query">
         <button type="submit">
             <i class="fas fa-search search-icon"></i>
         </button>
@@ -50,12 +50,13 @@
                 <i class="icon"></i>
                 <p id="day5"></p>
             </div>
-            <span id="current-city-name"> CITY , PL </span>
+            <div id="current-city-name"> 
+                CITY , PL 
+                <i class="far fa-plus-square plus addremove"></i>
+            </div>
         </div>
         <div id="right-container">
-            <span class="favourite"></span>
-            <span class="favourite"></span>
-            <span class="favourite"></span>
+            <span class="favourite"> Tutaj pojawią się miasta dodane do ulubionych</span>
         </div>
     </div>
 </body>
