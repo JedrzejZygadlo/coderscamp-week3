@@ -73,6 +73,7 @@ const getForecast = data => {
 
 let isQueryRunning = false
 
+
 // The function responsible for displaying today's date and days of the week in the right places on the page.
 const getDate = () =>{
     //Display today's date (Format DD.MM.YYYY)
