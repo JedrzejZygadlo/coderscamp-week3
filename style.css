@@ -1,15 +1,25 @@
 html{
     background: linear-gradient(#206CB2, #759FD1) no-repeat center center fixed;
 }
-body {
+body, html {
     margin: 0;
     padding: 0;
-   /* background-color: #216DB3;*/
     color: #fff;
+    height: 100%;
+    width: 100%;
 }
 *, ::after, ::before {
     box-sizing: border-box;
     position: relative;
+}
+
+#wrapper {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+    height: 100%;
+    width: 100%;
 }
 
 #city-search{
@@ -171,6 +181,22 @@ p{
     font-size: 2em;
     padding: 0.4em 0;
 }
+#videoBg {
+    width: 100%;
+    height: 100%;
+    position: absolute;
+    left: 0;
+    top: 0;
+    z-index: -1;
+    pointer-events: none;
+    opacity: 0.8;
+}
+#videoBg > video {
+    width: 100%;
+    height: 100%;
+    object-fit: cover; 
+}
+
 @media (max-width: 800px){
     #container{
         display: block;

@@ -11,51 +11,56 @@
     <script src="index.js" defer></script>
 </head>
 <body>
-    <form id="city-search" autocomplete="off">
-        <input id = "cityNameInput" type="text" placeholder="Wpisz nazwę miasta..." name="query">
-        <button type="submit">
-            <i class="fas fa-search search-icon"></i>
-        </button>
-    </form>
-    <div id="container">
-        <div id="left-container" >
-            <span id="today-day-name" class="day-of-the-week"></span>
-            <span id="date"></span>
-            <i id="main-icon" class="icon"></i>
-              <span id="temp"></span>
-              <div id="other-info">
-                  <span id="max"></span>
-                  <span id="min"></span>
-                  <span id="humidity"></span>
-              </div>
-          </div>
-          <div id="center-container">
-              <div class="next-day">
-                <p class ="day-of-the-week"></p>
-                <i class="icon"></i>
-                <p id="day2"></p>
+    <div id="wrapper">
+        <form id="city-search" autocomplete="off">
+            <input id = "cityNameInput" type="text" placeholder="Wpisz nazwę miasta..." name="query">
+            <button type="submit">
+                <i class="fas fa-search search-icon"></i>
+            </button>
+        </form>
+        <div id="container">
+            <div id="left-container" >
+                <span id="today-day-name" class="day-of-the-week"></span>
+                <span id="date"></span>
+                <i id="main-icon" class="icon"></i>
+                <span id="temp"></span>
+                <div id="other-info">
+                    <span id="max"></span>
+                    <span id="min"></span>
+                    <span id="humidity"></span>
+                </div>
             </div>
-            <div class="next-day">
-                <p class ="day-of-the-week"></p>
-                <i class="icon"></i>
-                <p id="day3"></p>
+            <div id="center-container">
+                <div class="next-day">
+                    <p class ="day-of-the-week"></p>
+                    <i class="icon"></i>
+                    <p id="day2"></p>
+                </div>
+                <div class="next-day">
+                    <p class ="day-of-the-week"></p>
+                    <i class="icon"></i>
+                    <p id="day3"></p>
+                </div>
+                <div class="next-day">
+                    <p class ="day-of-the-week" ></p>
+                    <i class="icon"></i>
+                    <p id="day4"></p>
+                </div>
+                <div class="next-day">
+                    <p class ="day-of-the-week"></p>
+                    <i class="icon"></i>
+                    <p id="day5"></p>
+                </div>
+                <div id="current-city-name"> 
+                    CITY , PL 
+                    <i class="far fa-plus-square plus addremove"></i>
+                </div>
             </div>
-            <div class="next-day">
-                <p class ="day-of-the-week" ></p>
-                <i class="icon"></i>
-                <p id="day4"></p>
-            </div>
-            <div class="next-day">
-                <p class ="day-of-the-week"></p>
-                <i class="icon"></i>
-                <p id="day5"></p>
-            </div>
-            <div id="current-city-name"> 
-                CITY , PL 
-                <i class="far fa-plus-square plus addremove"></i>
-            </div>
+            <div id="right-container"></div>
         </div>
-        <div id="right-container"></div>
+        <div id="videoBg">
+            <video src="vid/" autoplay muted loop></video>
+        </div>
     </div>
 </body>
 </html>
