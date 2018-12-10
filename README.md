@@ -12,9 +12,9 @@ We display information such as: temperature (average, maximum, minimum), humidit
 * We display 4 diffrent background videos depending on the current weather.
 
 ## Screenshots
-![ScreenShot](./screenshots/wroclaw.JPG)
-![ScreenShot](./img/barcelona.jpg)
-![ScreenShot](./img/zakopane.jpg)
+![ScreenShot](./screenshots/wroclaw.jpg)
+![ScreenShot](./screenshots/barcelona.jpg)
+![ScreenShot](./screenshots/zakopane.jpg)
 
 ## Setup
 Just clone or download our repository and run index.html.
