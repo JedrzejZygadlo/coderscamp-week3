@@ -146,6 +146,34 @@ function renderData(avr,allData){
     document.getElementById('max').innerHTML = 'Max:<br>' + avr[0].temp_max +'<span>&deg;C</span>';
     document.getElementById('min').innerHTML = 'Min:<br> ' + avr[0].temp_min +'<span>&deg;C</span>';
     document.getElementById('humidity').innerText = 'Wilgotność:' + "\r\n" + avr[0].humidity + '%';
+    setVideoBg(avr)
+}
+
+const setVideoBg = avg => {
+  let weather = ''
+
+  switch (avg[0].weather.icon) {
+    case '01':
+    case '02':
+    case '50':
+      weather = 'sun'
+      break
+    case '03':
+    case '04':
+      weather = 'cloud'
+      break
+    case '09':
+    case '10':
+    case '11':
+      weather = 'rain'
+      break
+    case '13':
+      weather = 'snow'
+      break
+  }
+  if (document.querySelector('#videoBg > video').getAttribute('src') !== `vid/${weather}.mp4`) {
+    document.querySelector('#videoBg > video').src = `vid/${weather}.mp4`
+  }
 }
 
 let isQueryRunning = false

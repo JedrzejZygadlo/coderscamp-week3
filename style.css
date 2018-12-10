@@ -1,15 +1,25 @@
-html{
-    background: linear-gradient(#206CB2, #759FD1) no-repeat center center fixed;
-}
-body {
+body, html {
     margin: 0;
     padding: 0;
-   /* background-color: #216DB3;*/
     color: #fff;
+    height: 100%;
+    width: 100%;
 }
 *, ::after, ::before {
     box-sizing: border-box;
     position: relative;
+}
+:root {
+    --tileBg: linear-gradient(#93B3CFaa, #ABC0D6aa);
+}
+
+#wrapper {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+    height: 100%;
+    width: 100%;
 }
 
 #city-search{
@@ -19,7 +29,7 @@ body {
 input{
     font-size: 2em;
     border: none;
-    background: linear-gradient(#93B3CF, #ABC0D6);
+    background: var(--tileBg);
     text-align: center;
     opacity: 1;
     color: #fff;
@@ -35,7 +45,7 @@ button{
     width: 3em;
     height: 3em;
     border: none;
-    background: linear-gradient(#93B3CF, #ABC0D6);
+    background: var(--tileBg);
     color: #fff;
 }
 #container{
@@ -50,7 +60,7 @@ button{
 
 #left-container{
     grid-column:1/2;
-    background: linear-gradient(#93B3CF, #ABC0D6);
+    background: var(--tileBg);
     display: flex;
     flex-direction: column;
     text-align: center;
@@ -64,7 +74,7 @@ button{
 
 #right-container{
     grid-column:3/4;
-    background: linear-gradient(#93B3CF, #ABC0D6);
+    background: var(--tileBg);
     text-align: center;
     display: flex;
     flex-direction: column;
@@ -76,7 +86,8 @@ button{
     padding: 1em 0;
 }
 .next-day {
-    background: linear-gradient(#93B3CF, #ABC0D6);
+    background: var(--tileBg);
+    /* background-color: #94B4CF; */
 }
 
 p{
@@ -126,9 +137,6 @@ p{
 .favourite:hover  .minus {
     color: rgba(255, 255, 255,255)
 }
-.next-day {
-    background-color: #94B4CF;
-}
 
 p{
   font-size: 1.5em;
@@ -171,6 +179,23 @@ p{
     font-size: 2em;
     padding: 0.4em 0;
 }
+#videoBg {
+    width: 100%;
+    height: 100%;
+    position: absolute;
+    left: 0;
+    top: 0;
+    z-index: -1;
+    pointer-events: none;
+    background: rgb(78, 126, 185);
+}
+#videoBg > video {
+    width: 100%;
+    height: 100%;
+    object-fit: cover; 
+    opacity: 0.8;
+}
+
 @media (max-width: 800px){
     #container{
         display: block;
