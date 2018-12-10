@@ -194,6 +194,7 @@ p{
     z-index: -1;
     pointer-events: none;
     background: rgb(78, 126, 185);
+    overflow: hidden;
 }
 #videoBg > video {
     width: 100%;
