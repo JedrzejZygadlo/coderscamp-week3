@@ -92,8 +92,8 @@ const getDate = () =>{
 }
 
 // The function responsible for displaying temperatures,icons and humidity in the right places on the page.
-function renderData(avr,allData){
-
+function renderData(allData){
+    let avr = getForecast(allData);
     // Display the city name and temperatures for all days
     let cityName = document.getElementById('current-city-name');
     cityName.innerText = allData.city.name.toUpperCase() + ',   '+ allData.city.country;
@@ -189,8 +189,7 @@ const sendQuery = cityName => {
       .then(data => {
         // if response ok
         if (data.cod && data.cod === '200') {
-          let dataAvarage = getForecast(data);
-          renderData(dataAvarage,data);
+          renderData(data);
           getDate();
           window.localStorage.currentCity = cityName
         }
